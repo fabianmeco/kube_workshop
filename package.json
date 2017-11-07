@@ -1,0 +1,19 @@
+{
+  "name": "kube_workshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fabianmeco/kube_workshop.git"
+  },
+  "author": "fabian mendoza <yessid.mendoza@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fabianmeco/kube_workshop/issues"
+  },
+  "homepage": "https://github.com/fabianmeco/kube_workshop#readme"
+}
