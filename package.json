@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/fabianmeco/kube_workshop/issues"
   },
-  "homepage": "https://github.com/fabianmeco/kube_workshop#readme"
+  "homepage": "https://github.com/fabianmeco/kube_workshop#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
 }
