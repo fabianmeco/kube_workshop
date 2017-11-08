@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha ./src/**/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,11 @@
   },
   "homepage": "https://github.com/fabianmeco/kube_workshop#readme",
   "dependencies": {
-    "express": "^4.16.2",
-    "expressjs": "^1.0.1"
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "mocha": "^4.0.1"
   }
 }

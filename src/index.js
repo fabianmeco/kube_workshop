@@ -14,3 +14,5 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use('/user', users);
+
+module.exports = app 
