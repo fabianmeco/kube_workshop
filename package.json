@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/fabianmeco/kube_workshop#readme",
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "expressjs": "^1.0.1"
   }
 }
