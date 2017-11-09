@@ -6,7 +6,7 @@ describe('user', function(){
             chai.request(app).post('/user').send(fixtures.post.user).end(function(err, res){
                 should.not.exist(err);
                 res.body.should.be.a('object');
-                res.body.userId.should.be.a('string');
+                //res.body.userId.should.be.a('string');
                 done();
             })
         })
@@ -19,7 +19,7 @@ describe('user', function(){
                 res.body.should.have.lengthOf(1); 
                 done();               
             });
-        })
+        })        
     });
     describe('[GET] /user/:userId', function(){
         it('it should get an user with userId', function(done){
@@ -29,28 +29,48 @@ describe('user', function(){
                 done();
             })
         });
-    })
+        it('it shouldn\'t get an user using an invalid userId', function(done){
+            chai.request(app).get('/user/5').end(function(err, res){
+                should.exist(err);
+                expect(res).to.have.status(404);
+                done();
+            })
+        })
+    });
+    describe('[PUT] /user/:userId', function(){
+        it('it should update an user using his userId', function(done){
+            chai.request(app).put('/user/1').send(fixtures.put.user).end(function(err, res){
+                should.not.exist(err);
+                res.body.id.should.to.equal('1');
+                res.body.username.should.be.an('string');
+                res.body.username.should.have.lengthOf(fixtures.put.user.username.length);
+                done();
+            })
+        });
+        it('it shouldn\'t put an user using an invalid userId', function(done){
+            chai.request(app).put('/user/5').send(fixtures.put.user).end(function(err, res){
+                should.exist(err);
+                expect(res).to.have.status(404);
+                done();
+            })
+        })
+    });
     describe('[DELETE] /user/:userId', function(){
         it('it should delete an user using his userId', function(done){
-            chai.request(app).get('/user/1').end(function(err, res){
+            chai.request(app).delete('/user/1').end(function(err, res){
                 should.not.exist(err);
                 res.body.should.be.an('object');
                 res.body.should.not.be.an('array');
                 done();
             })
-        })                 
+        });
         
-    
-    })
-    describe('[PUT] /user/:userId', function(){
-        it('it should update an user using his userId', function(done){
-            chai.request(app).get('/user/1').send(fixtures.post.user).end(function(err, res){
-                should.not.exist(err);
-                res.body.userId.should.to.equal('1');
-                res.body.username.should.be.an('string');
-                res.body.username.should.have.lengthOf(3);
+        it('it shouldn\'t delete an user using an invalid userId', function(done){
+            chai.request(app).delete('/user/5').end(function(err, res){
+                should.exist(err);
+                expect(res).to.have.status(404);
                 done();
             })
-        })
-    })
+        });
+    });
 });
