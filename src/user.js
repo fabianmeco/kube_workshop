@@ -2,6 +2,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const _ = require('lodash');
 const route = express.Router();
 const arr = [];
 
@@ -22,9 +23,7 @@ route.get('/', function(req, res){
 });
 
 route.get('/:userId', function(req, res){    
-    let tmp = arr.find(function(user){
-        return (user.userId===req.params.userId)
-    });
+    let tmp = _.find(arr, ['userId', req.params.userId]);    
     if(tmp){
         return res.json(tmp);  
     }
@@ -32,22 +31,29 @@ route.get('/:userId', function(req, res){
 });
 
 route.delete('/:userId', function(req, res){
-    for(let i = 0;i<arr.length;i++){
+    /*for(let i = 0;i<arr.length;i++){
         if(arr[i].userId===req.params.userId){
 
             let tmp = arr.splice(i,1);
             return res.json(tmp[0]);
         }
-    }
-    res.sendStatus(404);
+    }*/
+    let removed = _.remove(arr, function (user) {
+        return user.userId===req.params.userId;
+      })
+      if(removed){
+        res.json(removed[0]);
+      }
+      res.sendStatus(404);
+    
 });
 route.put('/:userId', function(req, res){
-    for(let i = 0;i<arr.length;i++){
-        if(arr[i].userId===req.params.userId){
-            arr[i].username = req.body.newname;
-            return res.json(arr[i]);
-        }
+    let tmp = _.findIndex(arr, ['userId', req.params.userId]); 
+    if(tmp>0){
+        arr[tmp].username = req.body.newname;
+        return res.json(arr[tmp]);
     }
+   
     res.sendStatus(404);    
 });
 

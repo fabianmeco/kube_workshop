@@ -1,7 +1,8 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var users = require('./user');
-var app = express();
+const express = require('express');
+const bodyParser = require('body-parser');
+const _ = require('lodash');
+const users = require('./user');
+const app = express();
 
 
 app.listen(3000, function(){
