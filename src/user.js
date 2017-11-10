@@ -16,7 +16,7 @@ const User = new schema({
     phone : {type:String, maxLenght:10, regex:/^[0-9\-\+]{10}$/},
     email : {type:String,required:true, regex: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/},
     gender: {type:String, enum:['M','F']}
-});
+},{setUndefined: true});
 
 
 route.use(function timeLog (req, res, next) {
@@ -32,8 +32,11 @@ route.post('/', function(req, res){
                 "phone":req.body.phone,
                 "email":req.body.email,
                 "gender" : req.body.gender});
+        
         if(user.isErrors()){
-            res.status(422).json(user.getErrors());
+            res.status(422).json(user.getErrors().map(function(){
+                return {"message" : user.getErrors()[0].errorMessage, "name": user.getErrors()[0].fieldSchema.name};
+            }));
             
         }else{
 
@@ -67,8 +70,9 @@ route.delete('/:userId', function(req, res){
 });
 route.put('/:userId', function(req, res){
     let tmp = _.findIndex(arr, {"id": req.params.userId}); 
+    let usert = new User(req.body);
     if(tmp>-1){
-        arr[tmp].username = req.body.username;
+        _.assignIn(arr[tmp],usert);
         return res.json(arr[tmp]);
     }
     res.sendStatus(404);    
