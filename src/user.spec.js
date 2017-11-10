@@ -9,14 +9,20 @@ describe('user', function(){
                 //res.body.userId.should.be.a('string');
                 done();
             })
-        })
+        });
+        it('it shouldn\' create a new user with duplicated username',function(){
+            chai.request(app).post('/user').send(fixtures.post.usert).end(function(err, res){
+                should.exist(err);
+                expect(res).to.have.status(409);
+            })
+        });
     });
     describe('[GET] /user', function(){
         it('it should get all the users', function(done){
             chai.request(app).get('/user').end(function(err, res){
                 should.not.exist(err);
                 res.body.should.be.a('array');
-                res.body.should.have.lengthOf(1); 
+                res.body.should.have.lengthOf(2); 
                 done();               
             });
         })        
@@ -37,13 +43,20 @@ describe('user', function(){
             })
         })
     });
-    describe('[PUT] /user/:userId', function(){
+    describe('[PUT] /user/:id', function(){
         it('it should update an user using his userId', function(done){
             chai.request(app).put('/user/1').send(fixtures.put.user).end(function(err, res){
                 should.not.exist(err);
                 res.body.id.should.to.equal('1');
                 res.body.username.should.be.an('string');
                 res.body.username.should.have.lengthOf(fixtures.put.user.username.length);
+                done();
+            })
+        });
+        it('it shouldn\'t update an user using a duplicated username', function(done){
+            chai.request(app).put('/user/2').send(fixtures.put.user).end(function(err, res){
+                should.exist(err);
+                expect(res).have.status(422);
                 done();
             })
         });
@@ -55,7 +68,7 @@ describe('user', function(){
             })
         })
     });
-    describe('[DELETE] /user/:userId', function(){
+    describe('[DELETE] /user/:id', function(){
         it('it should delete an user using his userId', function(done){
             chai.request(app).delete('/user/1').end(function(err, res){
                 should.not.exist(err);
