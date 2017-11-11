@@ -18,6 +18,15 @@ const User = new schema({
     gender: { type: String, enum: ['M', 'F'] }
 }, { setUndefined: true });
 
+const Usersearch = new schema({
+    username: { type: String},
+    first_name: { type: String},
+    last_name: { type: String},
+    phone: { type: String, maxLenght: 10, regex: /^[0-9\-\+]{10}$/ },
+    email: { type: String, required: true, regex: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
+    gender: { type: String, enum: ['M', 'F'] }    
+}, { setUndefined: false })
+
 route.use(function timeLog(req, res, next) {
     //console.log('Time: ', Date.now())
     next()
@@ -53,7 +62,22 @@ route.post('/', function (req, res) {
 
 
 route.get('/', function (req, res) {
-    res.json(arr);
+    if(_.isEmpty(req.query)){        
+        return res.json(arr);
+    }    
+    let user = new Usersearch(req.query); 
+    
+    if(user.isErrors()){
+        return res.status(422).json(user.getErrors().map(function () {
+            return { "message": user.getErrors()[0].errorMessage, "name": user.getErrors()[0].fieldSchema.name };
+        }));
+    }
+    let finded =_.filter(arr, user);    
+    if(finded.length>0){
+        return res.json(finded);
+    }
+    res.sendStatus(404);
+    
 });
 
 route.get('/:id', function (req, res) {

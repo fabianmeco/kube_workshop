@@ -43,7 +43,27 @@ describe('user', function(){
                 res.body.should.have.lengthOf(3); 
                 done();               
             });
-        })        
+        });
+        it('it should\'t get users with wrong format query', function(done){
+            chai.request(app).get('/user?gender=T').end(function(err, res){
+                should.exist(err);
+                expect(err).to.have.status(422);
+                done();               
+            });
+        }); 
+        it('it should\'t get users that are not saved', function(done){
+            chai.request(app).get('/user?username=haroldfinch').end(function(err, res){
+                should.exist(err);
+                expect(err).to.have.status(404);
+                done();
+            })
+        });
+        it('it should get users that match with the query', function(done){
+            chai.request(app).get('/user?username=Fabian').end(function(err, res){
+                should.not.exist(err);
+                done();
+            })
+        });       
     });
     describe('[GET] /user/:userId', function(){
         it('it should get an user with userId', function(done){
