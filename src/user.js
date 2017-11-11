@@ -71,13 +71,8 @@ route.get('/', function (req, res) {
         return res.status(422).json(user.getErrors().map(function () {
             return { "message": user.getErrors()[0].errorMessage, "name": user.getErrors()[0].fieldSchema.name };
         }));
-    }
-    let finded =_.filter(arr, user);    
-    if(finded.length>0){
-        return res.json(finded);
-    }
-    res.sendStatus(404);
-    
+    }    
+    return res.json(_.filter(arr, user));
 });
 
 route.get('/:id', function (req, res) {
