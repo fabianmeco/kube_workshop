@@ -23,7 +23,7 @@ const Usersearch = new schema({
     first_name: { type: String},
     last_name: { type: String},
     phone: { type: String, maxLenght: 10, regex: /^[0-9\-\+]{10}$/ },
-    email: { type: String, required: true, regex: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
+    email: { type: String, regex: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
     gender: { type: String, enum: ['M', 'F'] }    
 }, { setUndefined: false })
 
