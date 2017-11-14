@@ -48,8 +48,8 @@ route.post('/', function (req, res) {
         });
 
         if (user.isErrors()) {
-            res.status(422).json(user.getErrors().map(function () {
-                return { "message": user.getErrors()[0].errorMessage, "name": user.getErrors()[0].fieldSchema.name };
+            res.status(422).json(user.getErrors().map(function (err) {
+                return { "message": err.errorMessage, "name": err.fieldSchema.name };
             }));
 
         } else {
@@ -69,7 +69,7 @@ route.get('/', function (req, res) {
     
     if(user.isErrors()){
         return res.status(422).json(user.getErrors().map(function () {
-            return { "message": user.getErrors()[0].errorMessage, "name": user.getErrors()[0].fieldSchema.name };
+            return { "message": err.errorMessage, "name": err.fieldSchema.name };
         }));
     }    
     return res.json(_.filter(arr, user));
